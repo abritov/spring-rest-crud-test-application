@@ -20,7 +20,7 @@ class ArticleController(val articles: ArticleRepository, val products: ProductRe
                         "product_id" -> article.productId.toString() == value
                         "title" -> article.title == value
                         "content" -> article.content == value
-                        "created_at" -> article.createAt.toString() == value
+                        "created_at" -> article.createdAt.toString() == value
                         else -> throw Exception("unsupported field filter $fieldName")
                     }
                 }
@@ -33,5 +33,10 @@ class ArticleController(val articles: ArticleRepository, val products: ProductRe
     @PostMapping("/article")
     fun createArticle(@RequestBody article: ArticleEntity): Mono<ArticleEntity> {
         return articles.save(article)
+    }
+
+    @PutMapping("/article")
+    fun update(@RequestBody article: ArticleEntity): Mono<ArticleEntity> {
+//        return articles.
     }
 }

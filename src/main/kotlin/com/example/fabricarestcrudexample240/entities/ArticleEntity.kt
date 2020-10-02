@@ -11,5 +11,5 @@ data class ArticleEntity(
         @Column("product_id") val productId: Long,
         @Column("title") val title: String,
         @Column("content") val content: String,
-        @Column("created_at") val createAt: ZonedDateTime
+        @Column("created_at") val createdAt: ZonedDateTime?
 )
