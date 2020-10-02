@@ -1,0 +1,6 @@
+package com.example.fabricarestcrudexample240.repositories
+
+import com.example.fabricarestcrudexample240.entities.ArticleEntity
+import org.springframework.data.repository.reactive.ReactiveSortingRepository
+
+interface ArticleRepository: ReactiveSortingRepository<ArticleEntity, Long>
