@@ -2,6 +2,7 @@ package com.example.fabricarestcrudexample240.controllers
 
 import com.example.fabricarestcrudexample240.entities.ArticleEntity
 import com.example.fabricarestcrudexample240.entities.ProductEntity
+import com.example.fabricarestcrudexample240.models.ArticleProductPair
 import com.example.fabricarestcrudexample240.repositories.ArticleRepository
 import com.example.fabricarestcrudexample240.repositories.ProductRepository
 import org.springframework.web.bind.annotation.*
@@ -12,7 +13,7 @@ import reactor.core.publisher.Mono
 class ArticleController(val articles: ArticleRepository, val products: ProductRepository) {
 
     @GetMapping("/articles")
-    fun getArticles(@RequestParam(required = false) where: Map<String, String>): Flux<Pair<ArticleEntity, ProductEntity>> {
+    fun getArticles(@RequestParam(required = false) where: Map<String, String>): Flux<ArticleProductPair> {
         return articles.findAll().filter { article ->
                 where.all { (fieldName, value) ->
                     when (fieldName) {
@@ -26,17 +27,12 @@ class ArticleController(val articles: ArticleRepository, val products: ProductRe
                 }
             }.flatMap { article ->
                 // TODO SELECT queries -> one JOIN
-                products.findById(article.productId).map { product -> Pair(article, product) }
+                products.findById(article.productId).map { product -> ArticleProductPair(article, product) }
             }
     }
 
     @PostMapping("/article")
     fun createArticle(@RequestBody article: ArticleEntity): Mono<ArticleEntity> {
         return articles.save(article)
-    }
-
-    @PutMapping("/article")
-    fun update(@RequestBody article: ArticleEntity): Mono<ArticleEntity> {
-//        return articles.
     }
 }
