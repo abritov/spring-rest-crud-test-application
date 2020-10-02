@@ -4,10 +4,9 @@ import com.example.fabricarestcrudexample240.entities.ArticleEntity
 import com.example.fabricarestcrudexample240.entities.ProductEntity
 import com.example.fabricarestcrudexample240.repositories.ArticleRepository
 import com.example.fabricarestcrudexample240.repositories.ProductRepository
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import reactor.core.publisher.Flux
+import reactor.core.publisher.Mono
 
 @RestController
 class ArticleController(val articles: ArticleRepository, val products: ProductRepository) {
@@ -29,5 +28,10 @@ class ArticleController(val articles: ArticleRepository, val products: ProductRe
                 // TODO SELECT queries -> one JOIN
                 products.findById(article.productId).map { product -> Pair(article, product) }
             }
+    }
+
+    @PostMapping("/article")
+    fun createArticle(@RequestBody article: ArticleEntity): Mono<ArticleEntity> {
+        return articles.save(article)
     }
 }
