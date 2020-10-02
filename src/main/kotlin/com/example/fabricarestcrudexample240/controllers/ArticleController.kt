@@ -35,4 +35,9 @@ class ArticleController(val articles: ArticleRepository, val products: ProductRe
     fun createArticle(@RequestBody article: ArticleEntity): Mono<ArticleEntity> {
         return articles.save(article)
     }
+
+    @PutMapping("/article")
+    fun updateArticle(@RequestBody article: ArticleEntity): Mono<Int> {
+        return articles.updateArticle(article.id, article.productId, article.title, article.content)
+    }
 }
