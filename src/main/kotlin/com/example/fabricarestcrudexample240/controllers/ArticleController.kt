@@ -1,5 +1,6 @@
 package com.example.fabricarestcrudexample240.controllers
 
+import com.example.fabricarestcrudexample240.dto.DeleteArticleEntityByIdDto
 import com.example.fabricarestcrudexample240.entities.ArticleEntity
 import com.example.fabricarestcrudexample240.entities.ProductEntity
 import com.example.fabricarestcrudexample240.models.ArticleProductPair
@@ -39,5 +40,10 @@ class ArticleController(val articles: ArticleRepository, val products: ProductRe
     @PutMapping("/article")
     fun updateArticle(@RequestBody article: ArticleEntity): Mono<Int> {
         return articles.updateArticle(article.id, article.productId, article.title, article.content)
+    }
+
+    @DeleteMapping("/article")
+    fun deleteArticle(@RequestBody request: DeleteArticleEntityByIdDto): Mono<Void> {
+        return articles.deleteById(request.articleId)
     }
 }
