@@ -1,5 +1,8 @@
 package com.example.fabricarestcrudexample240.controllers
 
+import com.example.fabricarestcrudexample240.dto.DeleteArticleEntityByIdDto
+import com.example.fabricarestcrudexample240.dto.DeleteProductEntityByIdDto
+import com.example.fabricarestcrudexample240.entities.ArticleEntity
 import com.example.fabricarestcrudexample240.entities.ProductEntity
 import com.example.fabricarestcrudexample240.repositories.ProductRepository
 import org.springframework.web.bind.annotation.*
@@ -27,5 +30,15 @@ class ProductController(val products: ProductRepository) {
     @PostMapping("/product")
     fun createProduct(@RequestBody product: ProductEntity): Mono<ProductEntity> {
         return products.save(product)
+    }
+
+    @PutMapping("/product")
+    fun updateProduct(@RequestBody product: ProductEntity): Mono<Int> {
+        return products.updateProduct(product.id, product.title, product.description, product.cost)
+    }
+
+    @DeleteMapping("/product")
+    fun deleteProduct(@RequestBody request: DeleteProductEntityByIdDto): Mono<Void> {
+        return products.deleteById(request.productId)
     }
 }
